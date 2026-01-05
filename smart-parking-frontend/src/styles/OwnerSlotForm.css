@@ -1,0 +1,160 @@
+/* OwnerSlotForm Component*/
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  /* Simple dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.owner-slot-form-container {
+  margin-top: 12px;
+  /* Reduced */
+  padding: 16px;
+  /* Compact */
+  background: var(--bg-color);
+  /* Theme bg */
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.owner-slot-form-section {
+  margin-bottom: 16px;
+}
+
+.owner-slot-form-section-title {
+  font-size: 15px;
+  /* Smaller */
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.owner-slot-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  /* Narrower columns */
+  gap: 8px;
+  /* Reduced gap */
+  margin-bottom: 12px;
+  align-items: end;
+}
+
+.owner-slot-form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  /* Smaller label */
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.owner-slot-form-input {
+  padding: 8px;
+  /* Compact padding */
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  font-size: 13px;
+  transition: all 0.2s ease;
+  background: var(--card-bg);
+  color: var(--text-main);
+}
+
+.owner-slot-form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.owner-slot-form-button-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.owner-slot-form-button {
+  padding: 8px 16px;
+  /* Compact button */
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.owner-slot-form-button-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.owner-slot-form-button-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.owner-slot-form-button-secondary {
+  background: var(--secondary-color);
+  color: #fff;
+}
+
+.owner-slot-form-button-secondary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.owner-slot-form-button-warning {
+  background: var(--accent-color);
+  color: white;
+}
+
+.owner-slot-form-button-warning:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.owner-slot-form-button-danger {
+  background: #dc3545;
+  color: #fff;
+}
+
+.owner-slot-form-button-danger:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+.owner-slot-form-message {
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.owner-slot-form-message-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+}
+
+.owner-slot-form-message-error {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}

@@ -1,0 +1,242 @@
+/* Owner Dashboard Styles */
+
+.owner-dashboard-container {
+  min-height: 100vh;
+  background: var(--bg-color);
+  padding: 80px 16px 20px;
+  /* Reduced vertical/horizontal padding */
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+}
+
+.dashboard-header {
+  max-width: 1000px;
+  /* Reduced max-width for cleaner look */
+  margin: 0 auto 24px;
+  display: flex;
+  flex-direction: column;
+  /* Stack for centering */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.owner-dashboard-header {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 28px;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dashboard-title {
+  font-size: 24px;
+  /* Slightly smaller */
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.add-slot-btn {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  /* Compact padding */
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s;
+}
+
+.add-slot-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.owner-dashboard-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Fixed 2 columns */
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .owner-dashboard-main-grid {
+    grid-template-columns: 1fr;
+    /* Stack on mobile */
+  }
+}
+
+.owner-dashboard-summary-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  /* Compact padding */
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  height: fit-content;
+  /* Align heights naturally or use stretch if needed */
+}
+
+.owner-dashboard-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.owner-dashboard-summary-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+  text-align: center;
+  /* Center summary title too */
+}
+
+.owner-dashboard-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  /* Reduced padding */
+  font-size: 14px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.owner-dashboard-summary-item:last-child {
+  border-bottom: none;
+}
+
+.owner-dashboard-summary-value {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.owner-dashboard-create-button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  /* Compact */
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.owner-dashboard-create-button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.owner-dashboard-create-form {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  /* Compact */
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  margin-top: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.owner-dashboard-form-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.owner-dashboard-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Fixed 2 columns for alignment */
+  gap: 12px;
+  /* reduced gap */
+  margin-bottom: 16px;
+}
+
+.owner-dashboard-form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  /* Reduced gap */
+  font-size: 13px;
+  /* Smaller font */
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.owner-dashboard-form-input {
+  padding: 8px 12px;
+  /* Compact padding */
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background: var(--bg-color);
+  /* Contrast input bg */
+  color: var(--text-main);
+}
+
+.owner-dashboard-form-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.owner-dashboard-slots-section {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  min-height: 400px;
+  max-width: 1000px;
+  margin: 24px auto 0;
+  /* Centered with top margin */
+}
+
+.owner-dashboard-slots-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-color);
+  text-align: center;
+}
+
+.owner-dashboard-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.owner-dashboard-slots-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Fixed 2 columns */
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .owner-dashboard-slots-list {
+    grid-template-columns: 1fr;
+    /* Stack on mobile */
+  }
+}

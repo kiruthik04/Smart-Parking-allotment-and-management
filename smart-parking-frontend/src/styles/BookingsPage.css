@@ -1,0 +1,163 @@
+/* BookingsPage Styles */
+
+.bookings-page-container {
+  padding: clamp(16px, 4vw, 32px) clamp(16px, 4vw, 20px);
+  min-height: 100vh;
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+}
+
+.bookings-page-title {
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.bookings-content {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.bookings-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: clamp(16px, 4vw, 24px);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bookings-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.bookings-info-row {
+  margin: 8px 0;
+  font-size: clamp(14px, 3vw, 16px);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookings-info-label {
+  font-weight: 600;
+  color: var(--text-main);
+  min-width: 80px;
+}
+
+.bookings-status-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.bookings-status {
+  font-weight: 600;
+  font-size: clamp(14px, 3vw, 16px);
+}
+
+.bookings-status-active {
+  color: var(--success);
+}
+
+.bookings-status-completed {
+  color: var(--text-secondary);
+}
+
+.bookings-end-button {
+  background: var(--error);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.bookings-end-button:hover {
+  opacity: 0.9;
+}
+
+/* Payment UI */
+.payment-status-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.total-price-display {
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.pay-now-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.pay-now-button:hover {
+  transform: translateY(-1px);
+}
+
+.payment-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.payment-badge.paid {
+  background: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.payment-badge.paid::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: #2ecc71;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.3);
+}
+
+@media (max-width: 600px) {
+  .bookings-status-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .payment-status-wrapper {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

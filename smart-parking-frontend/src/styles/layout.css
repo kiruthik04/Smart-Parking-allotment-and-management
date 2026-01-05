@@ -1,0 +1,61 @@
+.navbar {
+  background: #1f2937;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.nav-links button {
+  background: #ef4444;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.nav-links button:hover {
+  background: #dc2626;
+}
+
+/* Dynamic Navbar for Slots Page */
+.navbar-dynamic {
+  position: fixed;
+  top: -70px;
+  /* Hide by default (height + padding) */
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: top 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Trigger Zone - Invisible strip at the top */
+.navbar-dynamic::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  /* Height of the trigger zone */
+  z-index: 1001;
+  /* Ensure it's on top */
+}
+
+/* Reveal on hover (trigger zone or navbar itself) */
+.navbar-dynamic:hover {
+  top: 0;
+}

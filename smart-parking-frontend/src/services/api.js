@@ -4,7 +4,7 @@ import axios from "axios";
 // Central Axios Instance
 // -------------------------------
 const API = axios.create({
-  baseURL: "http://localhost:8080"
+  baseURL: process.env.REACT_APP_API_URL || "http://localhost:8080"
 });
 
 // -------------------------------
@@ -54,8 +54,10 @@ export const getOwnerBookings = () =>
 export const endBooking = (bookingId) =>
   API.post(`/api/bookings/${bookingId}/end`);
 
-export const payBooking = (bookingId) =>
-  API.post(`/api/bookings/${bookingId}/pay`);
+export const payBooking = (bookingId, paymentRef) =>
+  API.post(`/api/bookings/${bookingId}/pay`, paymentRef, {
+    headers: { 'Content-Type': 'text/plain' }
+  });
 
 // -------------------------------
 // AUTH APIs (OPTIONAL FRONTEND USE)

@@ -116,6 +116,14 @@ public class BookingResponseDTO {
         this.userPhone = userPhone;
     }
 
+    public String getSlotUpiId() {
+        return slotUpiId;
+    }
+
+    public void setSlotUpiId(String slotUpiId) {
+        this.slotUpiId = slotUpiId;
+    }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }

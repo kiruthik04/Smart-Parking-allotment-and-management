@@ -9,33 +9,33 @@ function LoginPage({ onLogin }) {
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
-  setError("");
-  try {
-    const res = await axios.post(
-      "http://localhost:8080/api/users/login",
-      { email, password }
-    );
+    setError("");
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL || "http://localhost:8080"}/api/users/login`,
+        { email, password }
+      );
 
-    // ✅ Store token ONLY
-    localStorage.setItem("token", res.data.token);
+      // ✅ Store token ONLY
+      localStorage.setItem("token", res.data.token);
 
-    // ✅ Store user info separately (used later)
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        id: res.data.id,
-        name: res.data.name,
-        email: res.data.email,
-        role: res.data.role,
-        hasSlots: res.data.hasSlots
-      })
-    );
+      // ✅ Store user info separately (used later)
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: res.data.id,
+          name: res.data.name,
+          email: res.data.email,
+          role: res.data.role,
+          hasSlots: res.data.hasSlots
+        })
+      );
 
-    onLogin();
-  } catch {
-    setError("Invalid email or password");
-  }
-};
+      onLogin();
+    } catch {
+      setError("Invalid email or password");
+    }
+  };
 
 
   return (

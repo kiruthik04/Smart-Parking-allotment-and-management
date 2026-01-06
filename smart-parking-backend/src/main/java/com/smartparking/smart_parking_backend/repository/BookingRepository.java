@@ -39,4 +39,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                               AND b.active = false
                         """)
         double getTotalRevenueByOwnerEmail(@Param("email") String email);
+
+        // Razorpay support
+        Optional<Booking> findByRazorpayOrderId(String razorpayOrderId);
 }

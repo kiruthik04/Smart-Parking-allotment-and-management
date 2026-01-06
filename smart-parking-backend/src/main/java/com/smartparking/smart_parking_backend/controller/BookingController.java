@@ -42,7 +42,8 @@ public class BookingController {
     }
 
     @PostMapping("/{bookingId}/pay")
-    public BookingResponseDTO payBooking(@PathVariable Long bookingId) {
-        return service.processPayment(bookingId);
+    public BookingResponseDTO payBooking(@PathVariable Long bookingId,
+            @RequestBody(required = false) String paymentRef) {
+        return service.processPayment(bookingId, paymentRef);
     }
 }

@@ -175,7 +175,7 @@ public class BookingService {
         // PROCESS PAYMENT (NEW)
         // =====================================================
         @Transactional
-        public BookingResponseDTO processPayment(Long bookingId) {
+        public BookingResponseDTO processPayment(Long bookingId, String paymentRef) {
                 Booking booking = bookingRepository.findById(bookingId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
 
@@ -187,7 +187,13 @@ public class BookingService {
                         return mapToDTO(booking);
                 }
 
-                // Simulate payment processing
+                // Save Manual Payment Reference (UTR)
+                if (paymentRef != null && !paymentRef.trim().isEmpty()) {
+                        booking.setPaymentReference(paymentRef);
+                }
+
+                // Mark COMPLETED (In a real app, this would be PENDING until admin
+                // verification)
                 booking.setPaymentStatus(PaymentStatus.COMPLETED);
                 Booking saved = bookingRepository.save(booking);
 

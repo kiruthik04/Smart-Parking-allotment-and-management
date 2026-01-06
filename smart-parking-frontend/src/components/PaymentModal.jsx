@@ -2,151 +2,64 @@ import React, { useState } from 'react';
 import '../styles/PaymentModal.css';
 
 const PaymentModal = ({ booking, onClose, onPaymentSuccess }) => {
-    const [step, setStep] = useState('app-selection'); // app-selection, upi-id, request-sent, success
-    const [selectedApp, setSelectedApp] = useState(null);
-    const [upiId, setUpiId] = useState('');
+    const [utr, setUtr] = useState('');
+    const [error, setError] = useState('');
 
-    // Mock auto-complete UPI suggestions
-    const upiSuggestions = [
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @okaxis`,
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @okhdfcbank`,
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @oksbi`,
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @okicici`,
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @ybl`,
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @axl`,
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @ibl`,
-        `${booking.userName.toLowerCase().replace(/\s/g, '')} @paytm`
-    ];
-
-    const handleAppSelect = (app) => {
-        setSelectedApp(app);
-        if (app === 'gpay') {
-            setUpiId(upiSuggestions[0]); // Auto-fill for demo
+    const handleSubmitUtr = () => {
+        if (!utr || utr.length < 4) {
+            setError("Please enter a valid UTR / Transaction No.");
+            return;
         }
-        setStep('upi-id');
+        // Calls parent handler with the manual UTR
+        onPaymentSuccess(utr);
+        onClose();
     };
 
-    // This function handles the "Payment Approved" simulation
-    // We wrap it in useCallback so it doesn't get re-created on every render
-    const handleSimulateApproval = React.useCallback(() => {
-        setStep('processing');
-
-        // First timeout: Simulate "Verifying..." state
-        setTimeout(() => {
-            setStep('success');
-
-            // Second timeout: Close modal after success message
-            setTimeout(() => {
-                onPaymentSuccess(); // Tell the parent component (BookingPage) to update UI
-                onClose();          // Close this modal
-            }, 2000);
-        }, 1500);
-    }, [onPaymentSuccess, onClose]);
-
-    // Auto-advance simulation after request is sent
-    // This mimics the "Polling" process where we check if payment is done
-    React.useEffect(() => {
-        if (step === 'request-sent') {
-            // Wait 5 seconds to simulate user opening 'GPay' and approving
-            const timer = setTimeout(() => {
-                handleSimulateApproval();
-            }, 5000);
-
-            // Cleanup: If user closes modal early, cancel the timer
-            return () => clearTimeout(timer);
-        }
-    }, [step, handleSimulateApproval]);
-
-    const handleSendRequest = () => {
-        setStep('request-sent');
-        // Simulate waiting for external approval
-    };
-
-    if (step === 'success') {
-        return (
-            <div className="payment-modal-overlay">
-                <div className="payment-modal-content success">
-                    <div className="success-icon">✅</div>
-                    <h2>Payment Successful!</h2>
-                    <p>Amount paid: ₹{booking.totalPrice}</p>
-                </div>
-            </div>
-        );
-    }
-
-    if (step === 'processing') {
-        return (
-            <div className="payment-modal-overlay">
-                <div className="payment-modal-content processing">
-                    <div className="spinner"></div>
-                    <h2>Verifying Payment...</h2>
-                    <p>Please wait while we confirm with the bank.</p>
-                </div>
-            </div>
-        );
-    }
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=${booking.upiId}&pn=${booking.userName}&am=${booking.totalPrice}&cu=INR`;
 
     return (
         <div className="payment-modal-overlay">
             <div className="payment-modal-content">
                 <button className="close-button" onClick={onClose}>×</button>
 
-                {step === 'app-selection' && (
-                    <>
-                        <h2>Select Payment Method</h2>
-                        <p className="amount-display">To Pay: ₹{booking.totalPrice}</p>
-                        <div className="payment-apps-grid">
-                            <button className="app-btn gpay" onClick={() => handleAppSelect('gpay')}>
-                                <span role="img" aria-label="gpay">🇬</span> Google Pay
-                            </button>
-                            <button className="app-btn phonepe" onClick={() => handleAppSelect('phonepe')}>
-                                <span role="img" aria-label="phonepe">🇵</span> PhonePe
-                            </button>
-                            <button className="app-btn paytm" onClick={() => handleAppSelect('paytm')}>
-                                <span role="img" aria-label="paytm">💰</span> Paytm
-                            </button>
-                        </div>
-                    </>
-                )}
+                <h2>Scan & Pay</h2>
+                <p className="amount-display">Amount: ₹{booking.totalPrice}</p>
+                <div style={{ textAlign: 'center', margin: '20px 0' }}>
+                    <div style={{ background: 'white', padding: '10px', display: 'inline-block', borderRadius: '8px', border: '1px solid #ddd' }}>
+                        <img src={qrUrl} alt="Payment QR" style={{ width: '200px', height: '200px' }} />
+                    </div>
+                </div>
 
-                {step === 'upi-id' && (
-                    <>
-                        <h2>Enter UPI ID</h2>
-                        <p className="app-selected">Paying via {selectedApp === 'gpay' ? 'Google Pay' : selectedApp}</p>
-                        <div className="input-group">
-                            <label>Your UPI ID</label>
-                            <input
-                                type="text"
-                                value={upiId}
-                                onChange={(e) => setUpiId(e.target.value)}
-                                list="upi-suggestions"
-                            />
-                            <datalist id="upi-suggestions">
-                                {upiSuggestions.map(id => <option key={id} value={id} />)}
-                            </datalist>
-                        </div>
-                        <button className="action-btn" onClick={handleSendRequest}>Send Payment Request</button>
-                    </>
-                )}
+                <p style={{ textAlign: 'center', fontSize: '0.9em', color: '#555' }}>
+                    1. Scan with any UPI App (GPay, PhonePe, Paytm).<br />
+                    2. Complete the payment of <b>₹{booking.totalPrice}</b>.<br />
+                    3. Enter the <b>Transaction ID / UTR</b> below to confirm.
+                </p>
 
-                {step === 'request-sent' && (
-                    <>
-                        <h2>Request Sent 📱</h2>
-                        <p className="request-sent-text">
-                            We've sent a payment request of <strong>₹{booking.totalPrice}</strong> to <strong>{upiId}</strong>.
-                        </p>
-                        <p className="request-sent-subtext">
-                            Please open your {selectedApp === 'gpay' ? 'Google Pay' : selectedApp} app and approve the request.
-                        </p>
+                <div className="input-group" style={{ marginTop: '20px' }}>
+                    <label>Enter UTR / Reference No:</label>
+                    <input
+                        type="text"
+                        value={utr}
+                        onChange={(e) => {
+                            setUtr(e.target.value);
+                            setError('');
+                        }}
+                        placeholder="e.g. 3289XXXXXXX"
+                        className="utr-input"
+                        style={{ width: '100%', padding: '10px', marginTop: '5px', borderRadius: '4px', border: '1px solid #ccc' }}
+                    />
+                    {error && <p style={{ color: 'red', fontSize: '0.85em', marginTop: '5px' }}>{error}</p>}
+                </div>
 
-                        <div className="simulation-controls">
-                            <div className="payment-loading-status">
-                                <div className="spinner-small"></div>
-                                <p>Waiting for bank confirmation...</p>
-                            </div>
-                        </div>
-                    </>
-                )}
+                <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                    <button className="action-btn" onClick={handleSubmitUtr} style={{ flex: 1 }}>
+                        ✅ Confirm Payment
+                    </button>
+                    <button className="action-btn" onClick={onClose} style={{ flex: 1, background: '#64748b' }}>
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     );

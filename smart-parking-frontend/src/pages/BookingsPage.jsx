@@ -71,12 +71,12 @@ function BookingsPage() {
     };
 
     // Callback when payment popup says "Success"
-    const handlePaymentSuccess = async () => {
+    const handlePaymentSuccess = async (paymentRef) => {
         if (!paymentBooking) return;
 
         try {
-            // 1. Call the backend API to record the payment as COMPLETED
-            await payBooking(paymentBooking.bookingId);
+            // 1. Call the backend API to record the payment as COMPLETED, with UTR
+            await payBooking(paymentBooking.bookingId, paymentRef);
             alert("Payment recorded successfully!");
 
             // 2. Refresh the list so the status turns green ("Paid ✅")

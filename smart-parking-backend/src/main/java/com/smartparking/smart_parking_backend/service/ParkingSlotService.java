@@ -69,6 +69,7 @@ public class ParkingSlotService {
                 slot.setCity(dto.getCity());
                 slot.setReviews(dto.getReviews());
                 slot.setUpiId(dto.getUpiId());
+                slot.setStatus("PENDING"); // Explicitly set to pending
                 slot.setOwner(owner);
                 ParkingSlot saved = slotRepository.save(slot);
                 return new ParkingSlotResponseDTO(
@@ -284,6 +285,11 @@ public class ParkingSlotService {
                                                         // Ignore invalid types
                                                 }
                                         }
+                                        // Filter by Status (Only APPROVED slots are visible)
+                                        if (!"APPROVED".equals(slot.getStatus())) {
+                                                return false;
+                                        }
+
                                         return true; // Keep this slot!
                                 })
                                 .map(slot -> new ParkingSlotResponseDTO(

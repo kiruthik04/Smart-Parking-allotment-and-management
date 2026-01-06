@@ -90,6 +90,7 @@ public class AdminService {
         payoutRepository.save(payout);
     }
 
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
     public List<ParkingSlot> getPendingSlots() {
         return parkingSlotRepository.findAll().stream()
                 .filter(s -> "PENDING".equals(s.getStatus()))

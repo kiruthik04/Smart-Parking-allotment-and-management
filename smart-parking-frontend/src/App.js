@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import OwnerDashboard from "./pages/OwnerDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import ThemeToggle from "./components/ThemeToggle"; // Import
 
 function App() {
@@ -83,7 +84,7 @@ function App() {
           path="/login"
           element={
             isAuthenticated
-              ? <Navigate to={userRole === "OWNER" ? "/owner" : "/dashboard"} />
+              ? <Navigate to={userRole === "ADMIN" ? "/admin" : userRole === "OWNER" ? "/owner" : "/dashboard"} />
               : <LoginPage onLogin={handleLogin} />
           }
         />
@@ -99,11 +100,15 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={isAuthenticated && userRole !== "OWNER" ? <Dashboard /> : <Navigate to={isAuthenticated ? "/owner" : "/login"} />}
+          element={isAuthenticated && userRole !== "OWNER" && userRole !== "ADMIN" ? <Dashboard /> : <Navigate to={isAuthenticated ? (userRole === "ADMIN" ? "/admin" : "/owner") : "/login"} />}
         />
         <Route
           path="/owner"
           element={isAuthenticated && userRole === "OWNER" ? <OwnerDashboard /> : <Navigate to={isAuthenticated ? "/dashboard" : "/login"} />}
+        />
+        <Route
+          path="/admin"
+          element={isAuthenticated && userRole === "ADMIN" ? <AdminDashboard /> : <Navigate to="/login" />}
         />
         <Route
           path="/bookings"
@@ -112,7 +117,7 @@ function App() {
         {/* DEFAULT ROUTE */}
         <Route
           path="*"
-          element={<Navigate to={isAuthenticated ? (userRole === "OWNER" ? "/owner" : "/slots") : "/login"} />}
+          element={<Navigate to={isAuthenticated ? (userRole === "ADMIN" ? "/admin" : userRole === "OWNER" ? "/owner" : "/slots") : "/login"} />}
         />
       </Routes>
     </BrowserRouter>

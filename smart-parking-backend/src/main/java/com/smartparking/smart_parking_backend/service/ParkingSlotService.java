@@ -84,7 +84,10 @@ public class ParkingSlotService {
                                 saved.getCity(),
                                 saved.getReviews(),
                                 saved.getUpiId(),
-                                saved.isEnabled());
+                                saved.isEnabled(),
+                                saved.getCarPricePerHour(),
+                                saved.getBikePricePerHour(),
+                                saved.getTruckPricePerHour());
         }
 
         // -----------------------------------
@@ -107,7 +110,10 @@ public class ParkingSlotService {
                                                 slot.getCity(),
                                                 slot.getReviews(),
                                                 slot.getUpiId(),
-                                                slot.isEnabled()))
+                                                slot.isEnabled(),
+                                                slot.getCarPricePerHour(),
+                                                slot.getBikePricePerHour(),
+                                                slot.getTruckPricePerHour()))
                                 .toList();
         }
 
@@ -149,7 +155,10 @@ public class ParkingSlotService {
                                 saved.getCity(),
                                 saved.getReviews(),
                                 saved.getUpiId(),
-                                saved.isEnabled());
+                                saved.isEnabled(),
+                                saved.getCarPricePerHour(),
+                                saved.getBikePricePerHour(),
+                                saved.getTruckPricePerHour());
         }
 
         @Transactional
@@ -190,7 +199,10 @@ public class ParkingSlotService {
                                 saved.getCity(),
                                 saved.getReviews(),
                                 saved.getUpiId(),
-                                saved.isEnabled());
+                                saved.isEnabled(),
+                                saved.getCarPricePerHour(),
+                                saved.getBikePricePerHour(),
+                                saved.getTruckPricePerHour());
         }
 
         // -----------------------------------
@@ -287,8 +299,12 @@ public class ParkingSlotService {
                                                 slot.getCity(),
                                                 slot.getReviews(),
                                                 slot.getUpiId(),
-                                                slot.isEnabled())) // Convert to DTO (Data Transfer Object) for safe
-                                                                   // sending
+                                                slot.isEnabled(),
+                                                slot.getCarPricePerHour(),
+                                                slot.getBikePricePerHour(),
+                                                slot.getTruckPricePerHour())) // Convert to DTO (Data Transfer Object)
+                                                                              // for safe
+                                // sending
                                 .toList();
         }
 
@@ -313,7 +329,10 @@ public class ParkingSlotService {
                                                 slot.getCity(),
                                                 slot.getReviews(),
                                                 slot.getUpiId(),
-                                                slot.isEnabled()))
+                                                slot.isEnabled(),
+                                                slot.getCarPricePerHour(),
+                                                slot.getBikePricePerHour(),
+                                                slot.getTruckPricePerHour()))
                                 .toList();
         }
 
@@ -370,7 +389,10 @@ public class ParkingSlotService {
                                 saved.getCity(),
                                 saved.getReviews(),
                                 saved.getUpiId(),
-                                saved.isEnabled());
+                                saved.isEnabled(),
+                                saved.getCarPricePerHour(),
+                                saved.getBikePricePerHour(),
+                                saved.getTruckPricePerHour());
         }
 
         @Transactional
@@ -403,7 +425,10 @@ public class ParkingSlotService {
                                 saved.getCity(),
                                 saved.getReviews(),
                                 saved.getUpiId(),
-                                saved.isEnabled());
+                                saved.isEnabled(),
+                                saved.getCarPricePerHour(),
+                                saved.getBikePricePerHour(),
+                                saved.getTruckPricePerHour());
         }
 
         // -----------------------------------

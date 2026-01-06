@@ -10,13 +10,15 @@ function Navbar({ onLogout, userRole }) {
     <nav className={`navbar ${isSlotsPage ? 'navbar-dynamic' : ''}`}>
       <h3>Smart Parking</h3>
       <div className="nav-links">
-        {userRole === "OWNER" ? (
+        {userRole === "ADMIN" ? (
+          <Link to="/admin">Admin Panel</Link>
+        ) : userRole === "OWNER" ? (
           <Link to="/owner">Slot Maintenance</Link>
         ) : (
           <Link to="/dashboard">Dashboard</Link>
         )}
-        <Link to="/slots">Book Parking</Link>
-        <Link to="/bookings">My Bookings</Link>
+        <Link to="/slots">Available Slots</Link>
+        {userRole !== "ADMIN" && <Link to="/bookings">My Bookings</Link>}
         <button onClick={onLogout}>Logout</button>
       </div>
     </nav>

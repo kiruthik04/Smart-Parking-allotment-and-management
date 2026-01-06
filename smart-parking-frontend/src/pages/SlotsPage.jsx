@@ -98,18 +98,29 @@ function SlotsPage() {
     );
   }
 
-  const menuItems = role === 'owner'
-    ? [
+  /* Logic for Menu Items based on Role */
+  let menuItems;
+  if (role === 'owner') {
+    menuItems = [
       { label: 'Slot Maintenance', onClick: () => window.location.href = '/owner-dashboard' },
       { label: 'Book Parking', onClick: () => window.location.href = '/slots' },
       { label: 'History', onClick: () => setRightSidebarSlot('history') },
       { label: 'Logout', onClick: () => { localStorage.clear(); window.location.href = '/login'; } },
-    ]
-    : [
+    ];
+  } else if (role === 'ADMIN') { // Admin View
+    menuItems = [
+      { label: 'Admin Panel', onClick: () => window.location.href = '/admin' }, // Changed Dashboard -> Admin Panel
+      // Removed "Book Parking" and "Booking History" for Admin as requested
+      { label: 'Logout', onClick: () => { localStorage.clear(); window.location.href = '/login'; } }
+    ];
+  } else { // Regular User
+    menuItems = [
       { label: 'Dashboard', onClick: () => window.location.href = '/dashboard' },
       { label: 'Book Parking', onClick: () => window.location.href = '/slots' },
       { label: 'Booking History', onClick: () => window.location.href = '/my-bookings' },
+      { label: 'Logout', onClick: () => { localStorage.clear(); window.location.href = '/login'; } }
     ];
+  }
 
   return (
     <div className="slots-page-container">
@@ -203,7 +214,10 @@ function SlotsPage() {
                   <SlotCard
                     key={slot.id || idx}
                     slot={slot}
-                    onBook={() => handleSlotSelect(slot)}
+                    onBook={() => {
+                      if (role !== 'ADMIN') handleSlotSelect(slot);
+                    }}
+                    role={role}
                   />
                 ))
               )}

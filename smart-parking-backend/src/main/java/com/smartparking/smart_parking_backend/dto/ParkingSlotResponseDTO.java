@@ -17,9 +17,14 @@ public class ParkingSlotResponseDTO {
     private String upiId; // Added UPI ID
     private boolean enabled; // Added status field
 
+    // Price Fields
+    private double carPricePerHour;
+    private double bikePricePerHour;
+    private double truckPricePerHour;
+
     public ParkingSlotResponseDTO(Long id, String location, double latitude, double longitude, int carCapacity,
             int bikeCapacity, int truckCapacity, String imageUrl, String address, String city, String reviews,
-            String upiId, boolean enabled) {
+            String upiId, boolean enabled, double carPricePerHour, double bikePricePerHour, double truckPricePerHour) {
         this.id = id;
         this.location = location;
         this.latitude = latitude;
@@ -33,10 +38,13 @@ public class ParkingSlotResponseDTO {
         this.reviews = reviews;
         this.upiId = upiId;
         this.enabled = enabled;
+        this.carPricePerHour = carPricePerHour;
+        this.bikePricePerHour = bikePricePerHour;
+        this.truckPricePerHour = truckPricePerHour;
     }
 
     public ParkingSlotResponseDTO(Long id, String location, double latitude, double longitude) {
-        this(id, location, latitude, longitude, 0, 0, 0, null, null, null, null, null, true);
+        this(id, location, latitude, longitude, 0, 0, 0, null, null, null, null, null, true, 0.0, 0.0, 0.0);
     }
 
     public String getImageUrl() {
@@ -89,5 +97,17 @@ public class ParkingSlotResponseDTO {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public double getCarPricePerHour() {
+        return carPricePerHour;
+    }
+
+    public double getBikePricePerHour() {
+        return bikePricePerHour;
+    }
+
+    public double getTruckPricePerHour() {
+        return truckPricePerHour;
     }
 }

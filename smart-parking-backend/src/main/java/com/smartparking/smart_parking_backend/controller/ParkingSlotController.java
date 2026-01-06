@@ -87,8 +87,10 @@ public class ParkingSlotController {
                         slot.getCity(),
                         slot.getReviews(),
                         slot.getUpiId(), // Added upiId here
-                        slot.isEnabled() // Added enabled status
-                ))
+                        slot.isEnabled(), // Added enabled status
+                        slot.getCarPricePerHour(),
+                        slot.getBikePricePerHour(),
+                        slot.getTruckPricePerHour()))
                 .toList();
     }
 

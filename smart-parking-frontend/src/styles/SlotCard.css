@@ -20,7 +20,10 @@
 
 .slot-card.expanded {
   border: 2px solid var(--primary-color);
-  background: #f9fafb;
+  background: var(--card-bg);
+  /* Use theme bg instead of hardcoded light */
+  /* Optionally add a slight tint if needed, but safe default is card-bg */
+  box-shadow: var(--shadow-lg);
 }
 
 .slot-card-header {
@@ -63,7 +66,8 @@
 .slot-card-capacity-badge {
   background: #EFF6FF;
   /* Light blue/indigo bg */
-  color: var(--primary-color);
+  color: #1e40af;
+  /* Fixed dark blue for visibility */
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 600;
@@ -83,7 +87,8 @@
 .slot-card-price-badge {
   background: #ECFDF5;
   /* Light emerald bg */
-  color: var(--secondary-color);
+  color: #065f46;
+  /* Fixed dark green for visibility */
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 600;
@@ -121,7 +126,7 @@
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .slot-card-detail-row:last-child {

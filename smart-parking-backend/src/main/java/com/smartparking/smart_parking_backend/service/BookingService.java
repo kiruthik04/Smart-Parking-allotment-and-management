@@ -99,6 +99,10 @@ public class BookingService {
 
                 Booking saved = bookingRepository.save(booking);
 
+                // 👑 Fetch ADMIN user for Centralized Payment (The Admin collects all money)
+                User adminUser = userRepository.findByEmail("admin@smartparking.com")
+                                .orElseThrow(() -> new RuntimeException("Admin account not configured"));
+
                 return new BookingResponseDTO(
                                 saved.getId(),
                                 slot.getId(),
@@ -109,7 +113,7 @@ public class BookingService {
                                 user.getId(),
                                 user.getName(),
                                 user.getPhone(),
-                                slot.getUpiId(), // Added slotUpiId
+                                adminUser.getUpiId(), // 👈 Use ADMIN's UPI ID
                                 saved.getStartTime(),
                                 saved.getEndTime(),
                                 saved.isActive(),
@@ -211,7 +215,9 @@ public class BookingService {
                                 booking.getUser().getId(),
                                 booking.getUser().getName(),
                                 booking.getUser().getPhone(), // Added phone number
-                                booking.getParkingSlot().getUpiId(), // Added slotUpiId
+                                userRepository.findByEmail("admin@smartparking.com")
+                                                .map(User::getUpiId)
+                                                .orElse(null), // 👈 Use ADMIN's UPI ID
                                 booking.getStartTime(),
                                 booking.getEndTime(),
                                 booking.isActive(),

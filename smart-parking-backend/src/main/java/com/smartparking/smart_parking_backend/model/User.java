@@ -14,6 +14,18 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @OneToMany(mappedBy = "owner")
+    private java.util.List<ParkingSlot> parkingSlots;
+
+    public java.util.List<ParkingSlot> getParkingSlots() {
+        return parkingSlots;
+    }
+
+    public void setParkingSlots(java.util.List<ParkingSlot> parkingSlots) {
+        this.parkingSlots = parkingSlots;
+    }
+
     @Column(nullable = false)
     private String password;
 
@@ -28,6 +40,17 @@ public class User {
     private String state;
     private String zipCode;
     private String country;
+
+    @Column(name = "upi_id")
+    private String upiId;
+
+    public String getUpiId() {
+        return upiId;
+    }
+
+    public void setUpiId(String upiId) {
+        this.upiId = upiId;
+    }
 
     @PrePersist
     protected void onCreate() {

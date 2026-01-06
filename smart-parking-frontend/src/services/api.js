@@ -117,4 +117,56 @@ export const createVehicle = (data) =>
   API.post("/api/vehicles", data);
 
 
+// -------------------------------
+// ADMIN APIs
+// -------------------------------
+export const getAdminStats = async () => {
+  const response = await API.get("/api/admin/stats");
+  return response.data;
+};
+
+export const getOwnerPayouts = async () => {
+  const response = await API.get("/api/admin/payouts");
+  return response.data;
+};
+
+export const processPayout = async (ownerId, amount) => {
+  const response = await API.post("/api/admin/payout", { ownerId, amount });
+  return response.data;
+};
+
+export const getPendingSlots = async () => {
+  const response = await API.get("/api/admin/slots/pending");
+  return response.data;
+};
+
+export const verifySlot = async (slotId, status, comments) => {
+  const response = await API.put(`/api/admin/slots/${slotId}/verify`, { status, comments });
+  return response.data;
+};
+
+export const getAdminProfile = async () => {
+  const response = await API.get("/api/admin/profile");
+  return response.data;
+};
+
+export const updateAdminProfile = async (upiId) => {
+  const response = await API.put("/api/admin/profile", { upiId });
+  return response.data;
+};
+
+// -------------------------------
+// USER MANAGEMENT APIs
+// -------------------------------
+export const getAllUsers = async () => {
+  const response = await API.get("/api/admin/users");
+  return response.data;
+};
+
+export const deleteUser = async (userId) => {
+  const response = await API.delete(`/api/admin/users/${userId}`);
+  return response.data;
+};
+
+
 export default API;

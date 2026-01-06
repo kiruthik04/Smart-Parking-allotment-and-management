@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../styles/SlotCard.css";
 
-function SlotCard({ slot, onBook }) {
+function SlotCard({ slot, onBook, role }) {
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
@@ -69,16 +69,18 @@ function SlotCard({ slot, onBook }) {
             </div>
           )}
         </div>
-        <button
-          className={`slot-card-book-button ${isClosed ? 'disabled' : ''}`}
-          disabled={isClosed}
-          onClick={e => {
-            e.stopPropagation();
-            if (!isClosed) onBook();
-          }}
-        >
-          {!isClosed ? 'Book' : 'Closed'}
-        </button>
+        {role !== 'ADMIN' && (
+          <button
+            className={`slot-card-book-button ${isClosed ? 'disabled' : ''}`}
+            disabled={isClosed}
+            onClick={e => {
+              e.stopPropagation();
+              if (!isClosed) onBook();
+            }}
+          >
+            {!isClosed ? 'Book' : 'Closed'}
+          </button>
+        )}
       </div>
 
       {expanded && (

@@ -71,6 +71,7 @@ public class ParkingSlot {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @OneToMany(mappedBy = "parkingSlot")
     private List<Booking> booking;
 
@@ -81,6 +82,27 @@ public class ParkingSlot {
 
     @Column(nullable = false)
     private boolean enabled = true;
+
+    // VERIFICATION STATUS
+    // PENDING, APPROVED, REJECTED
+    private String status = "PENDING";
+    private String adminComments;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAdminComments() {
+        return adminComments;
+    }
+
+    public void setAdminComments(String adminComments) {
+        this.adminComments = adminComments;
+    }
 
     public ParkingSlot() {
     }

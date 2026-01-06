@@ -22,6 +22,9 @@
 
   --icon-fill: #1F2937;
   --icon-fill-hover: #4F46E5;
+
+  --success: #10B981;
+  --error: #EF4444;
 }
 
 /* Dark Mode Overrides */

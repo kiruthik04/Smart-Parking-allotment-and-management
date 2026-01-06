@@ -40,6 +40,16 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                         """)
         double getTotalRevenueByOwnerEmail(@Param("email") String email);
 
+        // RAZORPAY / ADMIN
+        @Query("SELECT CASE WHEN SUM(b.totalPrice) IS NULL THEN 0.0 ELSE SUM(b.totalPrice) END FROM Booking b")
+        Double getTotalRevenue();
+
+        @Query("SELECT CASE WHEN SUM(b.totalPrice) IS NULL THEN 0.0 ELSE SUM(b.totalPrice) END FROM Booking b WHERE b.parkingSlot.owner.id = :ownerId")
+        Double getTotalRevenueByOwnerId(@Param("ownerId") Long ownerId);
+
+        @Query("SELECT CASE WHEN SUM(b.totalPrice) IS NULL THEN 0.0 ELSE SUM(b.totalPrice) END FROM Booking b WHERE b.parkingSlot.owner.id = :ownerId AND b.paymentStatus = 'COMPLETED'")
+        Double getTotalConfirmedRevenueByOwnerId(@Param("ownerId") Long ownerId);
+
         // Razorpay support
         Optional<Booking> findByRazorpayOrderId(String razorpayOrderId);
 }

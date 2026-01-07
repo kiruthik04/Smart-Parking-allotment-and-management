@@ -113,7 +113,8 @@ public class BookingService {
                                 user.getId(),
                                 user.getName(),
                                 user.getPhone(),
-                                adminUser.getUpiId(), // 👈 Use ADMIN's UPI ID
+                                slot.getUpiId() != null && !slot.getUpiId().isEmpty() ? slot.getUpiId()
+                                                : adminUser.getUpiId(), // 👈 Use Slot/Owner UPI ID, fallback to Admin
                                 saved.getStartTime(),
                                 saved.getEndTime(),
                                 saved.isActive(),
@@ -215,9 +216,12 @@ public class BookingService {
                                 booking.getUser().getId(),
                                 booking.getUser().getName(),
                                 booking.getUser().getPhone(), // Added phone number
-                                userRepository.findByEmail("admin@smartparking.com")
-                                                .map(User::getUpiId)
-                                                .orElse(null), // 👈 Use ADMIN's UPI ID
+                                booking.getParkingSlot().getUpiId() != null
+                                                && !booking.getParkingSlot().getUpiId().isEmpty()
+                                                                ? booking.getParkingSlot().getUpiId()
+                                                                : userRepository.findByEmail("admin@smartparking.com")
+                                                                                .map(User::getUpiId)
+                                                                                .orElse(null),
                                 booking.getStartTime(),
                                 booking.getEndTime(),
                                 booking.isActive(),

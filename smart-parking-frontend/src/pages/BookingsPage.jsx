@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { getMyBookings, getOwnerBookings, endBooking } from "../services/api";
 import PaymentModal from "../components/PaymentModal";
+import QRCodeModal from "../components/QRCodeModal";
 import "../styles/BookingsPage.css";
 import "../styles/common.css";
 
@@ -9,6 +10,7 @@ function BookingsPage() {
     const [loading, setLoading] = useState(true);
     const [userRole, setUserRole] = useState(null);
     const [paymentBooking, setPaymentBooking] = useState(null); // State for modal
+    const [qrBooking, setQrBooking] = useState(null); // State for QR Code modal
 
     // Get user role on mount
     useEffect(() => {
@@ -63,7 +65,11 @@ function BookingsPage() {
     const handlePayClick = (booking) => {
         // Check if the slot has a UPI ID configured (needed for payment)
         if (booking.slotUpiId) {
-            setPaymentBooking({ ...booking, upiId: booking.slotUpiId });
+            if (userRole === "OWNER") {
+                setQrBooking({ ...booking, upiId: booking.slotUpiId });
+            } else {
+                setPaymentBooking({ ...booking, upiId: booking.slotUpiId });
+            }
         } else {
             // Fallback if no UPI ID is found
             alert("No UPI ID found for this parking slot. Please contact admin.");
@@ -76,8 +82,12 @@ function BookingsPage() {
 
         // Payment verification is already done in the modal via Razorpay API
         // We just need to notify user and refresh UI
-        alert("Payment successful! ID: " + paymentRef);
+        // Payment verification is already done in the modal via Razorpay API
+        // We just need to notify user and refresh UI
+        alert("Payment successful! Ref: " + paymentRef);
         fetchBookings();
+        setPaymentBooking(null);
+        setQrBooking(null);
     };
 
     return (
@@ -184,6 +194,13 @@ function BookingsPage() {
                 <PaymentModal
                     booking={paymentBooking}
                     onClose={() => setPaymentBooking(null)}
+                    onPaymentSuccess={handlePaymentSuccess}
+                />
+            )}
+            {qrBooking && (
+                <QRCodeModal
+                    booking={qrBooking}
+                    onClose={() => setQrBooking(null)}
                     onPaymentSuccess={handlePaymentSuccess}
                 />
             )}

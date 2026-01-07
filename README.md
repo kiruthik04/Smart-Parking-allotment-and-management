@@ -43,6 +43,7 @@ The **Smart Parking Management System** is a full-stack web application designed
 | :--- | :--- |
 | **Render** | ![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white) | Backend Hosting |
 | **Vercel** | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white) | Frontend Hosting |
+| **TiDB Cloud** | ![TiDB](https://img.shields.io/badge/TiDB-444444?style=for-the-badge&logo=tidb&logoColor=white) | MySQL-Compatible Cloud Database |
 
 ---
 
@@ -159,6 +160,130 @@ Smart-Parking-System/
     npm start
     ```
     *The app will open at `http://localhost:3000`*
+
+---
+
+---
+
+# ☁️ Deployment Guide (Step-by-Step for Beginners)
+
+This guide will take you from "Zero" to "Live Production" using free tools: **TiDB (Database)**, **Render (Backend)**, and **Vercel (Frontend)**.
+
+## 1️⃣ Pre-Deployment Checklist
+Before deploying, ensure:
+*   [ ] **GitHub Repo**: Your project is pushed to GitHub.
+*   [ ] **Clean Code**: Remove any hardcoded passwords (like `Naruto@16`) from `application.properties` before committing, if possible. *We will inject them safely using Environment Variables.*
+*   [ ] **Database Clean**: You don't need to migrate data manually; the backend will create tables automatically on the cloud database.
+
+---
+
+## 2️⃣ Database Deployment (TiDB Cloud)
+We use **TiDB Cloud** because it's a free, MySQL-compatible Serverless database.
+
+### **Step 1: Create Cluster**
+1.  Go to [TiDB Cloud](https://tidbcloud.com/) and Sign Up.
+2.  Click **"Create Cluster"** -> Select **"Serverless"** (Free Forever).
+3.  Region: Select the one closest to you (e.g., **AWS Mumbai** or **Oregon**).
+4.  Give your cluster a name (e.g., `SmartParkingDB`) and click **Create**.
+
+### **Step 2: Get Connection Details**
+1.  Once created, click on your cluster name.
+2.  Click **"Connect"** (Top Right).
+3.  Select **"Generate Password"** -> **Copy and Save this Password safely!**
+4.  Look for the **"Connect with Your Client"** tab (or "Standard Connection").
+5.  Note down the following values:
+
+| Field | Example Value (Yours will be different) |
+| :--- | :--- |
+| **Host** | `gateway01.ap-southeast-1.prod.aws.tidbcloud.com` |
+| **Port** | `4000` |
+| **User** | `2GFKs24.root` |
+| **Password** | `(The one you generated)` |
+| **Database Name** | `test` (We will rename this in the connection string) |
+
+---
+
+## 3️⃣ Backend Deployment (Render)
+Render will host our Spring Boot backend.
+
+### **Step 1: Create Service**
+1.  Go to [Render.com](https://render.com/) and Log In with GitHub.
+2.  Click **"New +"** -> **"Web Service"**.
+3.  Select your **Smart-Parking-System** repository.
+4.  **Root Directory**: `smart-parking-backend` (Important! Don't leave empty).
+5.  **Runtime**: `Java` (It will auto-detect Maven).
+6.  **Build Command**: `mvn clean package`
+7.  **Start Command**: `java -jar target/smart-parking-backend-0.0.1-SNAPSHOT.jar`
+8.  **Instance Type**: Free.
+
+### **Step 2: Environment Variables (The Magic Bridge)**
+Scroll down to **"Environment Variables"** and click **"Add Environment Variable"**. Add these EXACT keys and your specific values from TiDB:
+
+| Key | Value to Paste | Description |
+| :--- | :--- | :--- |
+| `SPRING_DATASOURCE_URL` | `jdbc:mysql://YOUR_TIDB_HOST:4000/smart_parking_refractored?sslMode=VERIFY_IDENTITY&useSSL=true` | **Replace `YOUR_TIDB_HOST`** with the Host from TiDB. We added `/smart_parking_refractored` to create that specific DB. |
+| `SPRING_DATASOURCE_USERNAME` | `YOUR_TIDB_USER` | Paste your TiDB User (e.g., `2GFKs24.root`) |
+| `SPRING_DATASOURCE_PASSWORD` | `YOUR_TIDB_PASSWORD` | Paste the password you saved |
+| `JAVA_VERSION` | `17` | Ensures Render uses Java 17 |
+
+> [!IMPORTANT]
+> **Double Check**: Did you replace `YOUR_TIDB_HOST` in the URL?
+
+Click **"Create Web Service"**. Render will start building.
+*   **Success**: You will see "Build Successful" and "Deploy Live" in the logs.
+*   **Copy URL**: Top left, it looks like `https://smart-parking-backend.onrender.com`. **Copy this!**
+
+---
+
+## 4️⃣ Frontend Deployment (Vercel)
+Vercel will host our React frontend and talk to the Render backend.
+
+### **Step 1: Import Project**
+1.  Go to [Vercel.com](https://vercel.com/) and Log In with GitHub.
+2.  Click **"Add New..."** -> **"Project"**.
+3.  Import **Smart-Parking-System**.
+
+### **Step 2: Configuration**
+1.  **Framework Preset**: Create React App (Auto-detected).
+2.  **Root Directory**: Click "Edit" and select `smart-parking-frontend`.
+3.  **Build Command**: `npm run build` (Default).
+
+### **Step 3: Environment Variables**
+Expand the **"Environment Variables"** section.
+
+| Key | Value | Description |
+| :--- | :--- | :--- |
+| `REACT_APP_API_URL` | `https://your-backend-name.onrender.com` | **Paste the Render Backend URL** here. Do NOT add a trailing slash `/`. |
+
+Click **"Deploy"**.
+*   Vercel will build the React app.
+*   Once done, you will get a **Production URL** (e.g., `https://smart-parking-frontend.vercel.app`).
+
+---
+
+## 5️⃣ Verification & Testing
+
+### **How flows connect now:**
+`User (Browser)` ➡️ `Vercel (Frontend)` ➡️ `Render (Backend)` ➡️ `TiDB (Database)`
+
+### **Test It:**
+1.  Open your **Vercel URL**.
+2.  Go to **Signup**: Create a new user.
+    *   *If this works, Frontend -> Backend -> Database connection is perfect.*
+3.  **Login**: Try logging in.
+    *   *If this works, JWT Token generation is working.*
+4.  **Dashboard**: Check if data loads.
+
+---
+
+## 6️⃣ Common Deployment Errors
+
+| Error | Fix |
+| :--- | :--- |
+| **White Screen on Vercel** | Check if you set the `Root Directory` to `smart-parking-frontend`. |
+| **API Errors (Network Error)** | check if `REACT_APP_API_URL` in Vercel is `https` (not http) and has NO trailing slash. |
+| **Backend "CrashLoopBackOff"** | Check Render Logs. Usually means Database Connection failed. Verify TiDB password and URL format. |
+| **CORS Error** | Ensure your Backend Controller accepts origins (or use `*` for testing). |
 
 ---
 

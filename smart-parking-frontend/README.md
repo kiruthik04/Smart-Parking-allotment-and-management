@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+# ⚛️ Smart Parking Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![React Router](https://img.shields.io/badge/React_Router-6.4+-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Leaflet](https://img.shields.io/badge/Leaflet-Map-199900?style=for-the-badge&logo=Leaflet)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel)
 
-## Available Scripts
+## 📖 Overview
 
-In the project directory, you can run:
+The **Smart Parking Frontend** is a responsive, single-page application (SPA) built with React.js. It provides an intuitive interface for users to book parking slots, owners to manage their inventory, and admins to oversee the system.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🏗️ Frontend Architecture
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The application is structured around a **Component-Based Architecture**, ensuring reusability and modularity.
 
-### `npm test`
+```mermaid
+graph TD
+    App[App.js - Main Router] --> AuthLayer[Auth Logic & Context]
+    AuthLayer --> Navbar[Navbar Component]
+    
+    subgraph Public
+    App --> Login[Login Page]
+    App --> Signup[Signup Page]
+    end
+    
+    subgraph Protected
+    App --> Dashboard[User Dashboard]
+    App --> OwnerDash[Owner Dashboard]
+    App --> AdminDash[Admin Dashboard]
+    App --> Booking[Booking Flow]
+    end
+    
+    Booking --> Map[Map Component]
+    Booking --> SlotCard[Slot Card Component]
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📂 Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+smart-parking-frontend/
+├── public/                 # Static assets (images, favicon)
+└── src/
+    ├── components/         # Reusable UI widgets
+    │   ├── Navbar.jsx      # Navigation bar
+    │   ├── SlotCard.jsx    # Display individual slot info
+    │   └── ...
+    ├── pages/              # Full-page views (Routes)
+    │   ├── LoginPage.jsx   # Authentication
+    │   ├── Dashboard.jsx   # User central hub
+    │   └── ...
+    ├── services/           # API integration
+    │   └── api.js          # Axial configuration & endpoints
+    ├── styles/             # Global & component CSS
+    └── App.js              # Main routing & state logic
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🧩 Component Responsibilities
 
-### `npm run eject`
+| Component / Page | Role/Responsibility | Access |
+| :--- | :--- | :--- |
+| **`App.js`** | Main entry point, handles Routing, Auth state check, and Auto-logout logic. | Global |
+| **`Navbar.jsx`** | Navigation links based on user role (Owner/User/Admin). Handles Logout. | Global |
+| **`LoginPage.jsx`** | User authentication form. Stores JWT in `localStorage`. | Public |
+| **`Dashboard.jsx`** | User's home screen. Shows quick actions and recent activity. | User |
+| **`SlotsPage.jsx`** | Lists all available parking slots with search and filter options. | User |
+| **`ParkingMap.jsx`** | Leaflet map integration showing slots geographically. | User |
+| **`BookingForm.jsx`** | Form to select time/date for booking a slot. | User |
+| **`OwnerDashboard.jsx`** | Owner's control panel to add/edit/delete parking slots. | Owner |
+| **`AdminDashboard.jsx`** | System-wide statistics and user management. | Admin |
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📡 API Integration & State
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 1. Centralized API Service (`src/services/api.js`)
+We use **Axios** with interceptors to automatically attach the JWT token to every request.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```javascript
+/* src/services/api.js */
+API.interceptors.request.use(config => {
+    const token = localStorage.getItem("token");
+    if (token) config.headers.Authorization = `Bearer ${token}`; // Auto-Auth
+    return config;
+});
+```
 
-## Learn More
+### 2. State Management
+*   **Local State**: `useState` is used for form inputs and toggles.
+*   **Routing State**: `useNavigate` and `useLocation` pass data between pages.
+*   **Global Auth**: `App.js` holds the `isAuthenticated` state and passes it down via props/context.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🚀 Setup & Run (Frontend Only)
 
-### Code Splitting
+### Prerequisites
+*   **Node.js**: v18.0.0 or higher
+*   **NPM**: Installed with Node
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Steps
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
+2.  **Environment Variables**:
+    Create a `.env` file in the root if needed (optional for local dev usually, but good practice):
+    ```env
+    REACT_APP_API_URL=http://localhost:8080
+    ```
+3.  **Start Dev Server**:
+    ```bash
+    npm start
+    ```
+    The app runs at `http://localhost:3000`.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🔧 Troubleshooting
 
-### Making a Progressive Web App
+| Issue | Solution |
+| :--- | :--- |
+| **`'react-scripts' not found`** | Run `npm install` again to restore `node_modules`. |
+| **API Calls Fail (401)** | Token expired. Logout manually or clear Application -> Local Storage in DevTools. |
+| **Map Markers Missing** | Leaflet CSS might be missing. Check `index.js` imports. |
+| **White Screen on Load** | Check Console (F12) for JavaScript errors. |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 🎨 Styling
+The project uses **Custom CSS** modules and standard CSS files located in `src/styles`. No external heavy frameworks (like Bootstrap) are strictly enforced, ensuring a lightweight and custom look.

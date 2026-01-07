@@ -95,7 +95,7 @@
 }
 
 .btn-secondary {
-  background: #ffffff;
+  background: var(--card-bg);
   color: var(--text-main);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -109,8 +109,8 @@
 }
 
 .btn-secondary:hover {
-  background-color: #f9fafb;
-  border-color: #d1d5db;
+  background-color: var(--border-color);
+  border-color: var(--text-secondary);
   transform: translateY(-1px);
 }
 

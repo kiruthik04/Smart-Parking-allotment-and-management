@@ -231,7 +231,9 @@
   background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 60;
+  /* Higher than search wrapper (50) */
   display: flex;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
   transform: translateX(-100%);
@@ -437,14 +439,58 @@
     width: calc(100% - 32px);
   }
 
+  /* Fix SEARCH BAR on Mobile */
+  .search-wrapper {
+    top: 80px;
+    left: 16px;
+    transform: none;
+    width: 60px;
+    /* Start small (icon size + padding) */
+    max-width: 280px;
+    z-index: 5;
+    transition: width 0.5s ease;
+    /* Animate container width too */
+  }
+
+  .search-wrapper.active {
+    width: 280px;
+    /* Expand to full mobile width */
+    z-index: 60;
+  }
+
+  .search-wrapper.active .input-holder {
+    width: 100%;
+    /* Fill the expanded container */
+  }
+
+  .search-wrapper .input-holder .search-input {
+    width: 100%;
+    padding-right: 40px;
+    /* Prevent text hitting close button */
+  }
+
+  .search-wrapper .close {
+    right: 10px;
+    /* Inside the screen */
+    top: 12px;
+  }
+
   .slots-sidebar {
     top: 0;
     left: 0;
     bottom: 0;
     width: 100%;
     border-radius: 0;
-    z-index: 30;
+    z-index: 999;
+    /* Max z-index to cover search bar */
     /* Cover everything */
+    transform: translateX(-100%);
+    /* Ensure it is hidden by default */
+  }
+
+  .slots-sidebar.open {
+    transform: translateX(0);
+    /* Show when open */
   }
 
   .slots-sidebar:not(.open) {
@@ -471,12 +517,32 @@
     cursor: pointer;
   }
 
+  /* Fix Detail Panel on Mobile */
   .slots-detail-panel {
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     border-radius: 0;
-    z-index: 40;
+    z-index: 2000;
+    /* Ensure strictly on top of everything including sidebar(999) */
+    padding-bottom: env(safe-area-inset-bottom);
+
+    /* Animation for Mobile: Slide Up */
+    animation: slideInUpMobile 0.3s ease-out forwards;
   }
+
+  /* Define mobile slide up animation */
+  @keyframes slideInUpMobile {
+    from {
+      transform: translateY(100%);
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* When active (it's conditionally rendered so this is implicit), ensure it stays visible */
+
 }

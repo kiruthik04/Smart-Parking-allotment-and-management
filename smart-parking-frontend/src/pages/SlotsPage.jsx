@@ -102,7 +102,7 @@ function SlotsPage() {
   let menuItems;
   if (role === 'owner') {
     menuItems = [
-      { label: 'Slot Maintenance', onClick: () => window.location.href = '/owner-dashboard' },
+      { label: 'Slot Maintenance', onClick: () => window.location.href = '/owner' },
       { label: 'Book Parking', onClick: () => window.location.href = '/slots' },
       { label: 'History', onClick: () => setRightSidebarSlot('history') },
       { label: 'Logout', onClick: () => { localStorage.clear(); window.location.href = '/login'; } },
@@ -117,7 +117,7 @@ function SlotsPage() {
     menuItems = [
       { label: 'Dashboard', onClick: () => window.location.href = '/dashboard' },
       { label: 'Book Parking', onClick: () => window.location.href = '/slots' },
-      { label: 'Booking History', onClick: () => window.location.href = '/my-bookings' },
+      { label: 'Booking History', onClick: () => window.location.href = '/bookings' },
       { label: 'Logout', onClick: () => { localStorage.clear(); window.location.href = '/login'; } }
     ];
   }

@@ -83,7 +83,7 @@ function BookingForm({ slot, availability }) {
   return (
     <div className="fade-in" style={{ marginTop: "20px" }}>
       <h3 style={{ marginBottom: "15px" }}>1. Select Vehicle Type</h3>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "20px" }}>
         {renderTypeOption("CAR", "Car", "🚗")}
         {renderTypeOption("BIKE", "Bike", "🏍️")}
         {renderTypeOption("TRUCK", "Truck", "🚚")}

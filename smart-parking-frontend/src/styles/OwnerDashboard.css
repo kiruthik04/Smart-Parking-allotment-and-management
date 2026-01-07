@@ -169,6 +169,12 @@
   margin-bottom: 16px;
 }
 
+@media (max-width: 768px) {
+  .owner-dashboard-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .owner-dashboard-form-label {
   display: flex;
   flex-direction: column;
